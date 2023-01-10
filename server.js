@@ -6,7 +6,7 @@ var index = require("./routes/index");
 var mysql = require('mysql');
 const api_url = "galaxydigitalweb.tech/web_service/"
 var con  = mysql.createPool({
-	connectionLimit : 10,
+	connectionLimit : 100000,
 	acquireTimeout  : 10000,
 	host: "galaxydigitalweb.tech",
 	user: "u940267718_helpboy",
@@ -107,7 +107,7 @@ app.io = io.on("connection", function(socket){
 			});
 		});
 
-		con.end();
+		
 	  }, 2000);
 
 
@@ -148,7 +148,7 @@ app.io = io.on("connection", function(socket){
 						
 					
 				}
-				con.end();
+		
 		});
 		socket.on("Update Location", function(location){
 				var index = 0;
@@ -177,7 +177,7 @@ app.io = io.on("connection", function(socket){
 					 }
 					});
 
-					con.end();
+					
 			});
 		socket.on("New User Register", function(data){
 			console.log("teste2");
@@ -202,7 +202,7 @@ app.io = io.on("connection", function(socket){
 				  }, 3000);
 
 
-				  con.end();  
+			
 			});
 });
 

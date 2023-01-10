@@ -5,15 +5,7 @@ const http = require('http');
 var index = require("./routes/index");
 var mysql = require('mysql');
 const api_url = "galaxydigitalweb.tech/web_service/"
-var con  = mysql.createPool({
-	connectionLimit : 100000,
-	acquireTimeout  : 10000,
-	host: "galaxydigitalweb.tech",
-	user: "u940267718_helpboy",
-	password: "Vidaloka123",
-	database: "u940267718_helpboy"
-  });
-  
+
 
 var app = express();
 
@@ -46,6 +38,15 @@ io.listen(app.listen(port, function(){
 }));
 
 app.io = io.on("connection", function(socket){
+	var con  = mysql.createPool({
+		connectionLimit : 100000,
+		acquireTimeout  : 10000,
+		host: "galaxydigitalweb.tech",
+		user: "u940267718_helpboy",
+		password: "Vidaloka123",
+		database: "u940267718_helpboy"
+	  });
+	  
 	console.log("Socket connected: " + socket.id);
 	console.log(socket.id);
 	var device_token = "";

@@ -31,3 +31,94 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js" type="text/javascript"></script>
 
 
+  <script>
+    
+    var socket = io();
+
+    socket.on("connect", ()=>{
+        console.log(socket.id);
+
+        var driverCurrentData = {
+            "socketId":socket.id,
+            "locationId":"1"
+        };
+
+        $.ajax({
+            type: "PUT",
+            url:"/api/driverLocationSocket/" + driverCurrentData.locationId,
+            dataType:"json",
+            data:driverCurrentData
+        }).done(function(response){
+            if(response !== ""){
+            console.log("success");
+
+            } else{
+                console.log("Error" + response);
+            }
+        });
+
+        //When emited by user on random nearby driver
+
+        var driverRequest = socket.id + "driverRequest";
+        socket.on(driverRequest, function(passengerData){
+            if(passengerData){
+
+                console.log("Passenger looking for a driver", passengerData);
+
+                //Update booking status to confirmed on btn click
+                $(".btn").click(function(e){
+                    //e.preventDefault();
+                 
+                    var status = $("#bookingStatus").val();
+                    var dataToSend = {
+                        "driverId":"593a65fc734d1d141ca6557d",
+                        "id": passengerData._id,
+                        "status": status,
+                    };
+                    $.ajax({
+                        type: "PUT",
+                        url: "/api/bookings/" + passengerData._id,
+                        dataType: "json",
+                        data: dataToSend
+                    }).done(function( response ) {
+
+                        // Check for a successful (blank) response
+                        if (response !== "") {
+                            console.log("Success");
+                        }
+                        else {
+                            console.log("Error: " + response);
+                        }
+                    });
+                });
+            }
+        });
+        socket.on("Create Driver Data", function(location){
+ 
+            var index = 0;
+        
+         
+                var driverCurrentLocation = {
+                    "locationId":location.driver_id,
+                    "latitude": location.coords,
+                    "longitude": location.coords
+                };
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/driverLocation/" + location._id,
+                    dataType: "json",
+                    data: driverCurrentLocation
+                }).done(function( response ) {
+                    // Check for a successful (blank) response
+                    if (response !== "") {
+                        console.log("Driver Location updated ");
+                    }
+                    else {
+                        console.log("Error: " + response);
+                    }
+                });
+           
+        });
+    });
+
+  </script>

@@ -107,7 +107,7 @@ app.io = io.on("connection", function(socket){
 			});
 		});
 
-		
+		con.end();
 	  }, 2000);
 
 
@@ -148,6 +148,7 @@ app.io = io.on("connection", function(socket){
 						
 					
 				}
+				con.end();
 		});
 		socket.on("Update Location", function(location){
 				var index = 0;
@@ -176,7 +177,7 @@ app.io = io.on("connection", function(socket){
 					 }
 					});
 
-	
+					con.end();
 			});
 		socket.on("New User Register", function(data){
 			console.log("teste2");
@@ -201,7 +202,7 @@ app.io = io.on("connection", function(socket){
 				  }, 3000);
 
 
-			   
+				  con.end();  
 			});
 });
 
